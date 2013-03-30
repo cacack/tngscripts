@@ -111,7 +111,7 @@ foreach ($states as $state) {
          # The regex '$' only matches at the end of the line.
          $sql = "UPDATE $table SET $field = replace($field, '$searchstr', '$replacestr') WHERE $field REGEXP '$searchstr\$'";
          $result = mysql_query( $sql ) or die ( $text['cannotexecutequery'] . ": $sql" );
-         $num = mysql_affected_rows( $result );
+         $num = mysql_affected_rows();
          echo "$num rows updated.<br />\n";
       }
       # Otherwise just query the database.
