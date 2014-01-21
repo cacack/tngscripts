@@ -126,10 +126,33 @@ foreach ($states as $state) {
                echo "    {$row[$field]}<br />";
             }
          }
-      }
+      } #END if update
+   } #END foreach dbpiece
+
+   # Now adjust cemeteries table
+   echo "  tng_cemeteries > state = ";
+   if ($_GET['update']) {
+      $sql = "UPDATE tng_cemeteries SET country = 'USA' WHERE state = '$state'";
+      $result = mysql_query( $sql ) or die ( $text['cannotexecutequery'] . ": $sql" );               
+      $num = mysql_affected_rows();
+      echo "$num rows updated.<br />\n";
    }
+   # Otherwise just query the database.
+   else {
+      $sql = "SELECT * FROM tng_cemeteries WHERE state = '$state'";
+      $result = mysql_query( $sql ) or die ( $text['cannotexecutequery'] . ": $sql" );
+      $num = mysql_num_rows( $result );
+      echo "$num rows found.<br />\n";
+      # If the script is passed 'details=1', print the place field for each record.
+      if ($_GET['details']) {
+         while ($row = mysql_fetch_assoc($result)) {
+            echo "    {$row[state]}<br />";
+         }
+      }
+   } #END if update
+
    echo "</p>\n";
-}
+} #END foreach state
 
 ?>
 </body>
